@@ -2,6 +2,11 @@ import { useContext, useEffect } from "react";
 import { AppContext } from "../App";
 import { Link } from "react-router-dom";
 import Fetcher from "./Fetcher";
+import styled from "styled-components";
+
+const LogInForm = styled.form`
+  margin: 20px 0;
+`;
 
 export default function Header() {
   const {
@@ -11,13 +16,12 @@ export default function Header() {
     setPassword,
     submitter,
     setSubmitter,
+    token,
+    setToken,
   } = useContext(AppContext);
 
   function handleSubmit(e) {
     e.preventDefault();
-    setSubmitter(true);
-  }
-  useEffect(() => {
     setSubmitter(false);
     const requestOptions = {
       method: "POST",
@@ -31,7 +35,11 @@ export default function Header() {
           requestOptions
         );
 
-        console.log(response.status);
+        // console.log(response.json());
+        const responseToken = await response.json();
+
+        setToken(responseToken.token);
+
         if (response.status === 200) {
           console.log("Login successful");
         } else {
@@ -42,26 +50,29 @@ export default function Header() {
       }
     };
     fetchData();
-  }, [submitter]);
+  }
 
   return (
     <>
       <h1>Header</h1>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <input
-          type="text"
-          placeholder="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <input type="submit" value="Log in" />
-      </form>
+      {!token && (
+        <LogInForm onSubmit={(e) => handleSubmit(e)}>
+          <input
+            type="text"
+            placeholder="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <input type="submit" value="Log in" />
+        </LogInForm>
+      )}
+      {token && <h3>Welcome {username}</h3>}
       <Link to="/fronttoback/">Home </Link>
       <Link to="/fronttoback/products">Products </Link>
       <Link to="/fronttoback/orders">Orders</Link>

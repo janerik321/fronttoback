@@ -16,6 +16,7 @@ export default function App() {
   const [productPrice, setProductPrice] = useState("");
   const [productAdder, setProductAdder] = useState(false);
   const [fetching, setFetching] = useState(true);
+  const [token, setToken] = useState(null);
 
   return (
     <AppContext.Provider
@@ -42,6 +43,8 @@ export default function App() {
         setProductAdder,
         fetching,
         setFetching,
+        token,
+        setToken,
       }}
     >
       <Header />

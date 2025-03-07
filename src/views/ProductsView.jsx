@@ -35,7 +35,7 @@ const GridElement = styled.div`
 `;
 
 const AddButton = styled.input`
-  background-color: #5e5;
+  background-color: #7e7;
   border: 1px solid #4d4;
   border-radius: 5px;
 `;
@@ -48,7 +48,7 @@ const UpdateForm = styled.form`
 `;
 
 const UpdateButton = styled.input`
-  background-color: #99f;
+  background-color: #aaf;
   border: none;
   border-radius: 5px;
   padding: 5px 0;
@@ -79,6 +79,7 @@ export default function ProductsView() {
     setProductAdder,
     fetching,
     setFetching,
+    token,
   } = useContext(AppContext);
   //   const fetchWhat = "http://localhost:3500/api/products";
 
@@ -125,7 +126,9 @@ export default function ProductsView() {
     console.log(productId, "hello");
     const requestOptions = {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: productName,
         category: productCategory,
@@ -157,7 +160,10 @@ export default function ProductsView() {
   function handleRemove(id) {
     const requestOptions = {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     };
     const fetchData = async () => {
       try {

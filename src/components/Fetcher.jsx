@@ -18,6 +18,7 @@ export default function Fetcher() {
   //   console.log(fetchWhat);
 
   useEffect(() => {
+    setSubmitter(false);
     setFetching(true);
     const fetchData = async () => {
       try {
